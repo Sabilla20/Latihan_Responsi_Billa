@@ -34,15 +34,17 @@ class LocationService {
   /// Koordinat -> alamat. Jika gagal, kembalikan teks koordinat.
   static Future<String> addressFrom(Position p) async {
     try {
-      final marks = await placemarkFromCoordinates(p.latitude, p.longitude);
+      final marks =
+          await Geocoding().placemarkFromCoordinates(p.latitude, p.longitude);
       if (marks.isNotEmpty) {
         final m = marks.first;
-        final parts = [
-          m.street,
-          m.subLocality,
-          m.locality,
-          m.administrativeArea,
-        ].where((e) => e != null && e.trim().isNotEmpty).cast<String>();
+        final parts = <String>[
+          if (m.street?.trim().isNotEmpty == true) m.street!,
+          if (m.subLocality?.trim().isNotEmpty == true) m.subLocality!,
+          if (m.locality?.trim().isNotEmpty == true) m.locality!,
+          if (m.administrativeArea?.trim().isNotEmpty == true)
+            m.administrativeArea!,
+        ];
         if (parts.isNotEmpty) return parts.join(', ');
       }
     } catch (_) {}

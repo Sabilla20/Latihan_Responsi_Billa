@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.example.latres_dari_ikram"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
